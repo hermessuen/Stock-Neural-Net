@@ -1,0 +1,71 @@
+Hermes Suen 8/26/2018
+
+
+
+The purpose of this project is to attempt to predict the stock market using a recurrent neural net. The nerual network
+was trained on monthly time series data on the following stocks:
+
+"F"; "GM"; "HOG"; "IRBT"; "WHR"; "KORS"; "EXPR"...
+"CAKE";"DPZ"; "ULTA"; "FIVE"; "CASY"; "KR"...
+"BUD"; "PM"; "ISRG"; "JAZZ"; "ARNA"; "BIO"; "BOFI"; "FITB"
+
+These stocks represent a wide range of industries and size of companies. 
+Since predicting actual stock prices is close to impossible (and difficult to train a neural network with) 
+the following parameters were used as input for each month:
+
+Volume 
+(High - Low)/Close
+(Volume- prevMonthVolume)/prevMonthVolume
+(LastMonthClose - LastYearClose)/LastYearClose
+(CurrentClose - prevClose)/prevClose;
+
+The output of these values was the return for one month in the future : 
+(CurrentClose - prevClose)/prevClose
+
+A decent measure of performance of stock models is if it can accurately predict the sign of the return better than
+50% of the time.
+
+This normalized the dataset somewhat and made for more comparable values
+The nerual net was given these parameters in the form of a monthly time series for up to 20 years
+of historical data for listed stocks above. 
+
+This project contains three files: TrainNet, TestNet, and getStockData
+	getStockData
+		This was a helper function that would call an API (alphavantage) and format all of the
+		data we wanted. It would then save it into a .mat file(MATLAB workspace variable) so that
+		we could access it later without having to re-download and re-format the data.
+
+	TrainNet
+		Run this script to train a neural network on a given set of stocks
+		The following training options were used:
+		'Algorithm': adam'
+    	'LearnRateSchedule': 'piecewise'
+    	'LearnRateDropFactor': 0.2
+    	'LearnRateDropPeriod': 125
+    	'MaxEpochs': 200
+    	'MiniBatchSize': 3
+    	'InitialLearnRate': 0.0001
+    	'Shuffle': 'never', 
+    	'GradientThreshold': 1
+
+    	These training options are just a few of teh training options provided by 
+    	MATLAB's nerual network toolbox.
+    	
+	TestNet
+		Run this script to test the performance of the nerual network
+		Will return the RMSE of the network for a given set of test stocks
+		as well as its accuracy in predicting the sign of the return for a given stock
+		for one time step in the future(one month)
+
+
+
+IMPROVEMENTS:
+1. 	This neural network was trained on several industries and types of companies.Narrowing down to one industry, 
+	or even one company could potentially provide for more accurate results because it will eliminate some of the noise
+
+2.	The methods used for normalization was fairly standard. More advanced methods of formatting and normalzing
+	the data might make it even easier to train the neural network and provide for more accurate results
+
+
+
+
