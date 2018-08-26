@@ -49,7 +49,7 @@ This project contains three files: TrainNet, TestNet, and getStockData
     	'GradientThreshold': 1
 
     	These training options are just a few of teh training options provided by 
-    	MATLAB's nerual network toolbox.
+    	MATLAB's neural network toolbox.
     	
 	TestNet
 		Run this script to test the performance of the nerual network
